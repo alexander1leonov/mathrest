@@ -1,14 +1,40 @@
-group 'org.github.alexander1leonov'
+group 'org.alexander1leonov'
 version '1.0-SNAPSHOT'
 
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
 apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'war'
+apply plugin: 'org.springframework.boot'
 
 sourceCompatibility = 1.7
+targetCompatibility = 1.7
 
 repositories {
+    jcenter()
     mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile("org.springframework.boot:spring-boot-starter-web")
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile('io.rest-assured:rest-assured:3.0.6')
+    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+}
+
+war {
+    baseName = projectName
+    version =  projectVersion
+}
+
+test {
+    description 'Starts MathREST application and executes functional tests'
 }

@@ -32,7 +32,9 @@ This operations evaluates a sum of numbers provided in the request
     * *Method*: **POST**
     * *URI*: `[BASE_URI]/math/add`
     * *Content-Type*: `application/json`
-    * *Body*: [`TBD`](TBD)
+    * *Parameters*:
+            * **n1**: number parameter #1
+            * **n2**: number parameter #2
 
 * *Response*
     * *Response-Code*:
