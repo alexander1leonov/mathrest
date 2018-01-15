@@ -1,5 +1,5 @@
-group 'org.alexander1leonov'
-version '1.0-SNAPSHOT'
+group projectGroup
+version projectVersion
 
 buildscript {
     repositories {
@@ -15,18 +15,17 @@ apply plugin: 'idea'
 apply plugin: 'war'
 apply plugin: 'org.springframework.boot'
 
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = javaVersion
+targetCompatibility = javaVersion
 
 repositories {
-    jcenter()
     mavenCentral()
 }
 
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
-    testCompile('org.springframework.boot:spring-boot-starter-test')
-    testCompile('io.rest-assured:rest-assured:3.0.6')
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    testCompile("io.rest-assured:rest-assured:${restAssuredVersion}")
     providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 }
 
