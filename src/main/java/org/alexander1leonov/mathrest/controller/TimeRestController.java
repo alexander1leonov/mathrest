@@ -34,12 +34,17 @@ public class TimeRestController {
     @RequestMapping(path = "/now", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<TimeResult> now() {
-        return ResponseEntity.ok(buildTime(new Date()));
+        return ResponseEntity.ok(buildTime(getCurrentDate()));
     }
 
     private TimeResult buildTime(Date date) {
         TimeResult timeResult = new TimeResult();
         timeResult.setTime(dateFormat.format(date));
         return timeResult;
+    }
+
+    private Date getCurrentDate() {
+        //TODO: implement a call to WaitTime API
+        return new Date();
     }
 }
