@@ -32,7 +32,6 @@ public class MathServiceTest {
                 .given().header("Accept", MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .when().get("/math/add?n1={n1}&n2={n2}", n1, n2)
                 .then().statusCode(200)
-                    .and().body("errorMessage", Matchers.isEmptyOrNullString())
                     .and().body("sum", Matchers.equalTo(5.0f));
 
     }
@@ -47,8 +46,6 @@ public class MathServiceTest {
                     .formParam("n1", n1).formParam("n2", n2)
                 .when().post("/math/add")
                 .then().statusCode(200)
-                    .and().body("errorMessage", Matchers.isEmptyOrNullString())
                     .and().body("sum", Matchers.equalTo(5.0f));
-
     }
 }
