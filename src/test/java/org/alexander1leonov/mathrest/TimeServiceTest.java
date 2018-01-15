@@ -8,25 +8,36 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.text.Format;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TimeServiceTest {
-    private static final Format TIME_FORMAT = new SimpleDateFormat("HH:mm:ss zZ");
+
+    @Value("${time.format}")
+    private String timeFormat;
+    @Value("${time.defaultTimezone}")
+    private String defaultTimezone;
+
+    private DateFormat dateFormat;
 
     @Autowired
     private Environment environment;
 
     @Before
     public void setup() {
+        dateFormat = new SimpleDateFormat(timeFormat);
+        dateFormat.setTimeZone(TimeZone.getTimeZone(defaultTimezone));
+
         RestAssured.port = Integer.valueOf(environment.getProperty("local.server.port"));
     }
 
@@ -50,6 +61,6 @@ public class TimeServiceTest {
     }
 
     private String getFormattedTime(Date date) {
-        return TIME_FORMAT.format(date);
+        return dateFormat.format(date);
     }
 }
