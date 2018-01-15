@@ -3,7 +3,6 @@ package org.alexander1leonov.mathrest.domain;
 public class MathResult {
     private Double[] numbers;
     private Double sum;
-    private String errorMessage;
 
     public Double[] getNumbers() {
         return numbers;
@@ -21,11 +20,4 @@ public class MathResult {
         this.sum = sum;
     }
 
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
 }
