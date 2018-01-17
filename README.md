@@ -92,3 +92,18 @@ This section describes response body structure and samples for <b>MathREST</b> o
     "time":"10:07:31 MST-0700"
 }
 ```
+
+## Security
+<b>TODO</b>: Implement security mechanism for the MathREST service.  
+The following considerations can be taken into account during security design and implementation:
+* A combination of SSL over HTTP (1-way) and an API key is enough suitable and convenient to serve the service security purpose;
+* For MathREST as a private web service, SSL over HTTP (2-way) can be considered as an alternative in case of a predefined and limited set of service clients;
+* Using credentials as an alternative to an API key has certain drawbacks, such as unnecessary exposure of credential data, additional requirements to credential complexity, extra efforts to handle password reset.
+
+## Performance optimization
+There is no performance optimization mechanisms introduced for the MathREST service yet, such as operation results caching.  
+The following considerations may be taken into account in future implementation:
+* Caching of <b>/math/add</b> operation results does not seem valueable as processing time benefits are doubtful:
+    * for small numbers cached value retrieval is no better than the sum evaluation,
+    * for big numbers cache hit rate expectation is quite low;
+* Caching of <b>/time/now</b> operation does not seem possible due to an absence of any parameters to serve as a cache key.
