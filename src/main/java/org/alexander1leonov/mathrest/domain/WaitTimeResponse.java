@@ -1,6 +1,6 @@
 package org.alexander1leonov.mathrest.domain;
 
-public class WaitTimeResult {
+public class WaitTimeResponse {
     private boolean success;
     private WaitTimeCurrent current;
 

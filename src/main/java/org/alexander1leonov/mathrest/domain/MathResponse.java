@@ -1,6 +1,6 @@
 package org.alexander1leonov.mathrest.domain;
 
-public class MathResult {
+public class MathResponse {
     private Double[] numbers;
     private Double sum;
 
