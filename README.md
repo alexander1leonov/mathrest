@@ -1,7 +1,38 @@
 # MathREST
-Test REST service for simple math operations
+Test REST service for simple math operations and current time retrieval
 
-## Operations
+### Version
+0.1.0-SNAPSHOT
+
+## Build
+MathREST project relies on <b>gradle</b> as the build system. The project can be built by running the following command from the project root directory:
+```
+gradle build
+```
+
+## Package
+MathREST can be packaged as a web archive or a docker image.
+* The output web archive is assembled during project build execution. See [`Build`](#build) for details.
+* The docker image can be assembled via running the following command from the project root directory:
+```
+gradle docker
+```
+
+## Run
+To run MathREST service locally as a web container application, execute the following command from the project root directory:
+```
+java -jar build/libs/mathrest-<version>.war
+```
+
+To run MathREST service locally as a docker image, execute the following command from the project root directory:
+```
+docker run -d -p 8080:8080 --name <container_name> org.alexander1leonov/mathrest:<version>
+```
+The service can be accessed at port <b>8080</b>.
+
+See [`Version`](#version) for version details.
+
+## API Reference
 This section describes operations supported by <b>MathREST</b>.
 
 ### GET /math/add
