@@ -1,6 +1,6 @@
 package org.alexander1leonov.mathrest.controller.client.waittime;
 
-import org.alexander1leonov.mathrest.domain.WaitTimeResult;
+import org.alexander1leonov.mathrest.domain.WaitTimeResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,13 +19,13 @@ public class WaitTimeRestClient {
     @Value("${waittime.url}")
     private String url;
     @Value("${waittime.headers.apiKey}")
-    private String apiKeyHeader;
+    private String apiKeyHeaderName;
 
-    public WaitTimeResult getCurrent() {
+    public WaitTimeResponse getCurrent() {
         LOG.debug("getCurrent(): invoked");
         HttpEntity<String> entity = new HttpEntity<>("parameters", getHeaders());
         RestTemplate restTemplate = buildRestTemplate();
-        ResponseEntity<WaitTimeResult> responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity, WaitTimeResult.class);
+        ResponseEntity<WaitTimeResponse> responseEntity = restTemplate.exchange(url, HttpMethod.GET, entity, WaitTimeResponse.class);
         LOG.debug("getCurrent(): response statusCode={}", responseEntity.getStatusCodeValue());
         if (HttpStatus.OK == responseEntity.getStatusCode()) {
             return responseEntity.getBody();

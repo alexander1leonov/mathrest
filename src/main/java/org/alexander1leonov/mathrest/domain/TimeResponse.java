@@ -1,6 +1,6 @@
 package org.alexander1leonov.mathrest.domain;
 
-public class TimeResult {
+public class TimeResponse {
     private String time;
 
     public String getTime() {

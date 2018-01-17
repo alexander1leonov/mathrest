@@ -1,8 +1,8 @@
 package org.alexander1leonov.mathrest.controller;
 
 import org.alexander1leonov.mathrest.controller.client.waittime.WaitTimeRestClient;
-import org.alexander1leonov.mathrest.domain.TimeResult;
-import org.alexander1leonov.mathrest.domain.WaitTimeResult;
+import org.alexander1leonov.mathrest.domain.TimeResponse;
+import org.alexander1leonov.mathrest.domain.WaitTimeResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,42 +47,36 @@ public class TimeRestController {
 
     @RequestMapping(path = "/now", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<TimeResult> now() {
+    public ResponseEntity<TimeResponse> now() {
         return ResponseEntity.ok(buildTime(getCurrentDate()));
     }
 
-    private TimeResult buildTime(Date date) {
-        TimeResult timeResult = new TimeResult();
-        timeResult.setTime(targetTimeFormat.format(date));
-        LOG.debug("buildTime(): result={}", timeResult.getTime());
-        return timeResult;
+    private TimeResponse buildTime(Date date) {
+        TimeResponse timeResponse = new TimeResponse();
+        timeResponse.setTime(targetTimeFormat.format(date));
+        LOG.debug("buildTime(): result={}", timeResponse.getTime());
+        return timeResponse;
     }
 
     private Date getCurrentDate() {
-        try {
-            Date waitTimeCurrentDate = getWaitTimeCurrentDate();
-            if (waitTimeCurrentDate != null) {
-                LOG.debug("getCurrentDate(): returning {}", sourceDateTimeFormat.format(waitTimeCurrentDate));
-                return waitTimeCurrentDate;
-            }
-        } catch (ParseException e) {
-            LOG.error("getCurrentDate(): {}", e.getLocalizedMessage());
-            LOG.debug("getCurrentDate(): {}", e);
-        }
+        WaitTimeResponse waitTimeResponse = waitTimeRestClient.getCurrent();
+        Date resultDate;
 
-        LOG.debug("getCurrentDate(): returning local server datetime");
-        return new Date();
-    }
-
-    private Date getWaitTimeCurrentDate() throws ParseException {
-        WaitTimeResult waitTimeResult = waitTimeRestClient.getCurrent();
-        if (waitTimeResult == null) {
-            LOG.debug("getWaitTimeCurrentDate(): waitTimeResult is null");
-            return null;
+        if (waitTimeResponse == null) {
+            LOG.warn("getWaitTimeCurrentDate(): waitTimeResult is null, returning local server datetime");
+            resultDate = new Date();
         } else {
-            String localTimeString = waitTimeResult.getCurrent().getLocalTime();
+            String localTimeString = waitTimeResponse.getCurrent().getLocalTime();
             LOG.debug("getWaitTimeCurrentDate(): localTimeString={}", localTimeString);
-            return sourceDateTimeFormat.parse(localTimeString);
+            try {
+                resultDate = sourceDateTimeFormat.parse(localTimeString);
+            } catch (ParseException e) {
+                LOG.error("getWaitTimeCurrentDate(): {}", e.getLocalizedMessage());
+                LOG.debug("getWaitTimeCurrentDate(): {}", e);
+                LOG.warn("getWaitTimeCurrentDate(): unable to parse local date, returning local server datetime");
+                resultDate = new Date();
+            }
         }
+        return resultDate;
     }
 }
