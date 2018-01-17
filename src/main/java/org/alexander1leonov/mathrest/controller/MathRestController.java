@@ -1,6 +1,8 @@
 package org.alexander1leonov.mathrest.controller;
 
 import org.alexander1leonov.mathrest.domain.MathResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("math")
 public class MathRestController {
+    private static final Logger LOG = LoggerFactory.getLogger(MathRestController.class);
 
     @RequestMapping(path = "/add", method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -28,6 +31,7 @@ public class MathRestController {
         MathResult mathResult = new MathResult();
         mathResult.setNumbers(new Double[]{n1, n2});
         mathResult.setSum(n1 + n2);
+        LOG.debug("buildSum(): n1={}, n2={}, sum={}", n1, n2, mathResult.getSum());
         return mathResult;
     }
 
